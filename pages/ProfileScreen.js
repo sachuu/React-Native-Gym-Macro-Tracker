@@ -6,8 +6,11 @@ class ProfileScreen extends React.Component {
   render() {  
     return (  
       <View>
-        <Header
-          centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        <Header 
+          centerComponent={{ text: 'MY MACROS', style: { color: '#fff' } }}
+          containerStyle={{
+            backgroundColor: '#5BC0EB',
+          }}
         />
       </View>
     );  

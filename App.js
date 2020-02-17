@@ -37,7 +37,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
                         <Icon style={[{color: tintColor}]} size={25} name={'md-add'}/>  
                     </View>),  
                 activeColor: '#f0edf6',  
-                inactiveColor: '#4d4dff',  
+                inactiveColor: '#5BC0EB',  
                 barStyle: { backgroundColor: '#ffffff' },  
             }  
         },  
@@ -50,7 +50,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
                         <Icon style={[{color: tintColor}]} size={25} name={'md-calculator'}/>  
                     </View>),  
                 activeColor: '#f0edf6',  
-                inactiveColor: '#4d4dff',  
+                inactiveColor: '#5BC0EB',  
                 barStyle: { backgroundColor: '#ffffff' },  
             }  
         },  
@@ -60,7 +60,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
       shifting: true,
       initialRouteName: "Home",  
       activeColor: '#f0edf6',  
-      inactiveColor: '#4d4dff',  
+      inactiveColor: '#5BC0EB',  
       barStyle: { backgroundColor: '#ffffff' },  
     },  
 );  

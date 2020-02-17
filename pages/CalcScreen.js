@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Header} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';  
-import RNPickerSelect from 'react-native-picker-select';
 import SwitchSelector from "react-native-switch-selector";
 
 import {Platform, StyleSheet, Text, View, StatusBar, Button} from 'react-native';
@@ -15,19 +14,19 @@ function MacroForm(){
 
   return(
     <View style = {{}}>
-       <TextInput
-        label = {"Age in years"}
+       <TextInput keyboardType = {"number-pad"}
+        label = {"Age in years..."}
         onChangeText={{}}
         underlineColor = 'lightblue'
       />
        <TextInput
-        label = {"Height in inches"}
+        label = {"Height in inches..."}
         onChangeText={{}}
         underlineColor = 'lightblue'
       />
 
       <TextInput 
-        label = {"Weight in pounds"}
+        label = {"Weight in pounds..."}
         onChangeText={{}}
         underlineColor = 'lightblue'
       />
@@ -48,18 +47,24 @@ class CalcScreen extends React.Component {
 
     return (  
       <View> 
-        <Header
-          centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        <Header 
+          centerComponent={{ text: 'MACRO CALCULATOR', style: { color: '#fff', letterSpacing: 2 } }}
+          containerStyle={{
+            backgroundColor: '#5BC0EB',
+          }}
         />
+        <View style = {{flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style = {{fontSize: 20, fontWeight: '100', padding: 10}}> Please Enter Info Below To Calculate Macro </Text>
+        </View>
         <MacroForm/>
 
-        <SwitchSelector style = {{padding: 10}}
+        <SwitchSelector style = {{padding: 20}}
           initial={0}
           onPress={value => this.setState({ gender: value })}
           textColor={'black'} 
           selectedColor={'white'}
-          buttonColor={'lightblue'}
-          borderColor={'lightblue'}
+          buttonColor={'#5BC0EB'}
+          borderColor={'#5BC0EB'}
           hasPadding = {true}
       
           options={[
@@ -67,18 +72,31 @@ class CalcScreen extends React.Component {
             { label: "Female", value: "f"} 
           ]}
         />
+
+        <View style = {{flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style = {{fontWeight: 'normal', fontSize: 20, letterSpacing: 2}}> Macro You'd Like to Calculate: </Text>
+        </View>
+
+        <SwitchSelector style = {{padding: 20}}
+          initial={0}
+          onPress={value => this.setState({ gender: value })}
+          textColor={'black'} 
+          selectedColor={'white'}
+          buttonColor={'#5BC0EB'}
+          borderColor={'#5BC0EB'}
+          hasPadding = {true}
       
-        <View style = {{margin: 10}}>
-        <Text> Please Select Macro: </Text>
-        <RNPickerSelect
-          onValueChange={(value) => console.log(value)}
-          items={[
-              { label: 'Calories', value: 'Calories' },
-              { label: 'Carbs', value: 'Carbs' },
-              { label: 'Fats', value: 'Fats' },
+          options={[
+            { label: "Calories", value: "m"},
+            { label: "Carbs", value: "f"},
+            { label: 'Fats', value: 'fat'}
           ]}
         />
-        </View> 
+
+        <View style = {{flexDirection: 'row', justifyContent: 'center', padding: 30}}>
+          <Text style = {{fontSize: 40}}>30g</Text>
+        </View>
+        
 
       </View>
     );  
