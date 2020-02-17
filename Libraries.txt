@@ -1,0 +1,4 @@
+Project Dependencies:
+
+https://github.com/react-native-community/art
+https://github.com/oblador/react-native-progress
