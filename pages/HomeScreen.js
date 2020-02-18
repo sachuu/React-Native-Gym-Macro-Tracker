@@ -1,19 +1,30 @@
 import React from 'react';  
+import uuid from 'uuid/v4';
+import { YellowBox } from 'react-native';
 import * as Progress from 'react-native-progress';
-import {Header, ListItem} from 'react-native-elements';
-import ProgressCircle from 'react-native-progress-circle'
+import {Header} from 'react-native-elements';
+import ProgressCircle from 'react-native-progress-circle';
 import { ScrollView } from 'react-native-gesture-handler';
-import {StyleSheet, Text, View, Modal, FlatList, ImageBackground} from 'react-native';  
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import {Button, Card, Title} from 'react-native-paper';
+import {StyleSheet, Text, View, Modal, FlatList, TouchableOpacity} from 'react-native';  
 
+YellowBox.ignoreWarnings([
+  'VirtualizedLists should never be nested', // Error caused by Flatlist inside scrollview. Unpatched error message  
+])
+
+//Macros Object -- 
+//List of all the macros being tracked
 const Macros = []
+
+//Class for each macro card with a constructor with a unique generated UUID for the key
 class macroCards{  
   numMacros = 0
 
-  constructor(title,unit,total,key){
+  constructor(title,unit){
       this.title = title;
       this.unit = unit;
       this.total = 0;
+      this.key = uuid()
   }
 }
 
@@ -53,6 +64,7 @@ function popUpForm(){
   </Modal>
 }
 
+//Rendering Macros--
 class HomeScreen extends React.Component { 
   render() {  
     return ( 
@@ -65,9 +77,10 @@ class HomeScreen extends React.Component {
         />
         <Progress.Bar progress={0.7} width={null} height={10} borderRadius = {0} color = {'lightgreen'}/>
         <ScrollView>
-        {Macros.map((item) => {
-            return(
-              <View>
+          <FlatList 
+            data = {Macros}
+            renderItem = {({ item }) => (
+              <TouchableOpacity>
                 <Card style = {{justifyContent: 'center', margin: 1, backgroundColor: '#ffff', borderRadius: 25}}>
                   <Card.Content>
                     <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -81,16 +94,16 @@ class HomeScreen extends React.Component {
                   <Card.Actions>
                   </Card.Actions>
                 </Card>
-              </View>
-            )
-          })}
-      </ScrollView> 
-      <Button color = {'#5BC0EB'} onPress={popUpForm}>Add New Macro</Button>
+              </TouchableOpacity>
+            )}
+            keyExtractor = {item => item.key}
+          />
+        </ScrollView> 
+       <Button color = {'#5BC0EB'} onPress={popUpForm}>Add New Macro</Button>
       </View>
     );  
   }  
 }  
-
 
 const styles = StyleSheet.create({
   progressBar:{
