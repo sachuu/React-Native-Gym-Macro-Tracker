@@ -1,9 +1,13 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {Header} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';  
+import {StyleSheet, Text, View,} from 'react-native';
 import SwitchSelector from "react-native-switch-selector";
 
-import {Platform, StyleSheet, Text, View, StatusBar, Button} from 'react-native';
+class subMacros{
+  calories = 0
+  
+}
 
 function MacroForm(){
   state = {
