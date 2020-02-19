@@ -63,18 +63,6 @@ function MainProgress(){
   )
 }
 
-function macroModal(){
-  return(
-    <View>
-      <Modal isVisible = {true}>
-        <View style = {{flex: 1}}>
-          <Text> Modal Test </Text>
-        </View>
-      </Modal>
-    </View>
-  )
-}
-
 function popUpForm(){
   <Modal
     visible= {this.state.visible}
