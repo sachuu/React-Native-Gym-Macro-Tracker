@@ -1,13 +1,30 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Header} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';  
 import {StyleSheet, Text, View,} from 'react-native';
 import SwitchSelector from "react-native-switch-selector";
 
 class subMacros{
-  calories = 0
-  
+
+  constructor(name){
+    this.name = this.name
+    this.total = 0
+  }
+
+  calcCalories(gender, weight, height, age){
+    if(gender === 'm'){
+      total = (((10*weight)+(6.25*height)-(5*age))+5)*1.2
+    }
+    else{
+      total = (((10*weight)+(6.25*height)-(5*age))-161)*1.2
+    }
+    return total
+  }
 }
+
+const calories = new subMacros("Calories")
+const carbs = new subMacros("Carbs")
+const fats = new subMacros("Fat")
 
 function MacroForm(){
   state = {
@@ -38,13 +55,13 @@ function MacroForm(){
   )
 }
 
-class CalcScreen extends React.Component { 
+class CalcScreen extends React.Component {
+
   state = {
     checked: 'first',
   };
 
   render() {  
-
     //Form Data Variables
 
     const { checked } = this.state;
@@ -98,10 +115,8 @@ class CalcScreen extends React.Component {
         />
 
         <View style = {{flexDirection: 'row', justifyContent: 'center', padding: 30}}>
-          <Text style = {{fontSize: 40}}>30g</Text>
+          <Text style = {{fontSize: 40}}>{calories.total}</Text>
         </View>
-        
-
       </View>
     );  
   }  

@@ -1,4 +1,4 @@
-import React from 'react';  
+import React, { useState } from 'react';  
 import uuid from 'uuid/v4';
 import { YellowBox } from 'react-native';
 import {Header} from 'react-native-elements';
@@ -46,6 +46,10 @@ calories.addTotal(1800)
 protein.addTotal(30)
 carbs.addTotal(100)
 
+function currMacroTracker(){
+  const [currMacro, setCurrMacro] = useState("calories");
+}
+
 //Forms / Modals--
 function MainProgress(){
   return(
@@ -79,6 +83,10 @@ function popUpForm(){
 class HomeScreen extends React.Component { 
 
   state = {
+    currentMacro: ''
+  }
+
+  state = {
     isModalVisible: false
   };
 
@@ -95,7 +103,9 @@ class HomeScreen extends React.Component {
             backgroundColor: '#5BC0EB',
           }}
         />
+        
         <Progress.Bar progress={0.7} width={null} height={10} borderRadius = {0} color = {'lightgreen'}/>
+        
         <ScrollView>
           <FlatList 
             data = {Macros}
