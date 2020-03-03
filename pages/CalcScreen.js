@@ -1,71 +1,100 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { Formik } from 'formik';
 import {Header} from 'react-native-elements';
 import {TextInput} from 'react-native-paper';  
-import {StyleSheet, Text, View,} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 import SwitchSelector from "react-native-switch-selector";
 
-class subMacros{
+global.currGender = 'm'
+global.currMacro = 'm'
 
-  constructor(name){
-    this.name = this.name
-    this.total = 0
-  }
-
-  calcCalories(gender, weight, height, age){
-    if(gender === 'm'){
-      total = (((10*weight)+(6.25*height)-(5*age))+5)*1.2
+function calcMacro(age, weight, height){
+  var macroTotal = 0
+  if(global.currMacro = 'calories'){
+    if(global.currGender === 'm'){
+      macroTotal = (((10*weight)+(6.25*height)-(5*age))+5)*1.2
     }
     else{
-      total = (((10*weight)+(6.25*height)-(5*age))-161)*1.2
+      macroTotal = (((10*weight)+(6.25*height)-(5*age))-161)*1.2
     }
-    return total
+    return macroTotal
   }
 }
 
-const calories = new subMacros("Calories")
-const carbs = new subMacros("Carbs")
-const fats = new subMacros("Fat")
-
 function MacroForm(){
-  state = {
-    checked: 'first',
-  };
-  
-  const { checked } = 'first';
-
+  const [total, setTotal] = useState(0);
+  const[subMacros, setSubMacros] = useState([
+    {
+      age: 0,
+    }
+  ])
   return(
-    <View style = {{}}>
-       <TextInput keyboardType = {"number-pad"}
-        label = {"Age in years..."}
-        onChangeText={{}}
-        underlineColor = 'lightblue'
-      />
-       <TextInput
-        label = {"Height in inches..."}
-        onChangeText={{}}
-        underlineColor = 'lightblue'
-      />
+    <View>
+      <Formik
+        initialValues = {{ Age: 20, Weight: 120, Height: 5}}
+        onSubmit = {values => setTotal(calcMacro(parseInt(values.Age,10), parseInt(values.Weight,10), parseInt(values.Height,10)))}
+      >
+        {({handleChange, handleSubmit, values}) => (
+          <View>
+            <TextInput
+              placeholder = {'Enter your age here'}
+              onChangeText = {handleChange('Age')}
+              value={values.Age}
+            />
+            <TextInput
+              placeholder = {'Enter your weight here (lb)'}
+              onChangeText = {handleChange('Weight')}
+              value={values.Weight}
+            />
+            <TextInput
+              placeholder = {'Please enter your height here (inches)'}
+              onChangeText = {handleChange('Height')}
+              value={values.Height}
+            />
 
-      <TextInput 
-        label = {"Weight in pounds..."}
-        onChangeText={{}}
-        underlineColor = 'lightblue'
-      />
+            <SwitchSelector style = {{padding: 20}}
+              initial={0}
+              onPress={value => global.currMacro = value}
+              textColor={'black'} 
+              selectedColor={'white'}
+              buttonColor={'#5BC0EB'}
+              borderColor={'#5BC0EB'}
+              hasPadding = {true}
+          
+              options={[
+                { label: "Male", value: "m"},
+                { label: "Female", value: "f"} 
+              ]}
+            />
+
+            <SwitchSelector style = {{padding: 20}}
+              initial={0}
+              onPress={value => global.currGender = value}
+              textColor={'black'} 
+              selectedColor={'white'}
+              buttonColor={'#5BC0EB'}
+              borderColor={'#5BC0EB'}
+              hasPadding = {true}
+      
+              options={[
+                { label: "Calories", value: "calories"},
+                { label: "Carbs", value: "carbs"},
+                { label: 'Fats', value: 'fat'}
+              ]}
+            />
+            <Button onPress = {handleSubmit} title= "calculate"/>
+            <View style = {{flexDirection: 'row', justifyContent: 'center', padding: 30}}>
+              <Text style = {{fontSize: 40}}>{total}</Text>
+            </View>
+          </View>
+        )}
+      </Formik>
     </View>
   )
 }
 
 class CalcScreen extends React.Component {
-
-  state = {
-    checked: 'first',
-  };
-
   render() {  
-    //Form Data Variables
-
-    const { checked } = this.state;
-
     return (  
       <View> 
         <Header 
@@ -78,45 +107,6 @@ class CalcScreen extends React.Component {
           <Text style = {{fontSize: 20, fontWeight: '100', padding: 10}}> Please Enter Info Below To Calculate Macro </Text>
         </View>
         <MacroForm/>
-
-        <SwitchSelector style = {{padding: 20}}
-          initial={0}
-          onPress={value => this.setState({ gender: value })}
-          textColor={'black'} 
-          selectedColor={'white'}
-          buttonColor={'#5BC0EB'}
-          borderColor={'#5BC0EB'}
-          hasPadding = {true}
-      
-          options={[
-            { label: "Male", value: "m"},
-            { label: "Female", value: "f"} 
-          ]}
-        />
-
-        <View style = {{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style = {{fontWeight: 'normal', fontSize: 20, letterSpacing: 2}}> Macro You'd Like to Calculate: </Text>
-        </View>
-
-        <SwitchSelector style = {{padding: 20}}
-          initial={0}
-          onPress={value => this.setState({ gender: value })}
-          textColor={'black'} 
-          selectedColor={'white'}
-          buttonColor={'#5BC0EB'}
-          borderColor={'#5BC0EB'}
-          hasPadding = {true}
-      
-          options={[
-            { label: "Calories", value: "m"},
-            { label: "Carbs", value: "f"},
-            { label: 'Fats', value: 'fat'}
-          ]}
-        />
-
-        <View style = {{flexDirection: 'row', justifyContent: 'center', padding: 30}}>
-          <Text style = {{fontSize: 40}}>{calories.total}</Text>
-        </View>
       </View>
     );  
   }  
