@@ -6,14 +6,14 @@ import * as Progress from 'react-native-progress';
 import {Button, Card, Title} from 'react-native-paper';
 import ProgressCircle from 'react-native-progress-circle';
 import { ScrollView } from 'react-native-gesture-handler';
-import Modal, { ModalContent, BottomModal } from 'react-native-modals';
-import {StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';  
+import {BottomModal, ModalContent} from 'react-native-modals';
+import {StyleSheet, Text, View, FlatList, TouchableOpacity, Alert} from 'react-native';  
 
+// Error caused by Flatlist inside scrollview. Unpatched error message  
 YellowBox.ignoreWarnings([
-  'VirtualizedLists should never be nested', // Error caused by Flatlist inside scrollview. Unpatched error message  
+  'VirtualizedLists should never be nested', 
 ])
 
-//Macros Object -- 
 //List of all the macros being tracked
 const Macros = []
 
@@ -32,6 +32,10 @@ class macroCards{
     this.total = this.total + val
     return this.total
   }
+
+  resetTotal(){
+    this.total = 0
+  }
 }
 
 const calories = new macroCards('Calories', '');
@@ -46,11 +50,9 @@ calories.addTotal(1800)
 protein.addTotal(30)
 carbs.addTotal(100)
 
-function currMacroTracker(){
-  const [currMacro, setCurrMacro] = useState("calories");
-}
+//Functions to make the main render cleaner
 
-//Forms / Modals--
+//Main progress bar
 function MainProgress(){
   return(
     <View style = {styles.progressBar}>
@@ -67,29 +69,38 @@ function MainProgress(){
   )
 }
 
-function popUpForm(){
-  <Modal
-    visible= {this.state.visible}
-    onTouchOutside={() => {
-      this.setState({ visible: false });
-    }}
-  >
-    <ModalContent>
-    </ModalContent>
-  </Modal>
+//Confirmation dialogue for reseting macros
+function confirmMacroReset(){
+  return(
+    Alert.alert(
+      'Reset macros for the day?',
+      'This will log your current macros',
+      [
+        {text: 'Yes', onPress: resetMacros},
+        {text: 'No', onPress: resetMacros},
+      ],
+    )
+  ) 
+}
+
+
+function newMacroForm(){
+  
+}
+
+function resetMacros(){
+  calories.resetTotal()
 }
 
 //Rendering Macros--
 class HomeScreen extends React.Component { 
 
-  state = {
-    currentMacro: ''
-  }
-
+  //State variable for what's described below
   state = {
     isModalVisible: false
   };
 
+  //Modal state for when you click a list item and it prompts whether to add etc
   toggleModal = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
@@ -141,8 +152,10 @@ class HomeScreen extends React.Component {
             <Button> Subtract </Button>
           </ModalContent>
         </BottomModal>
-
-       <Button color = {'#5BC0EB'} onPress={popUpForm}>Add New Macro</Button>
+        <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Button mode = 'contained' color = {'#FFE4A6'}  labelStyle={{ color: "black", fontSize: 12}} onPress={newMacroForm}>Add New Macro</Button>
+          <Button mode = 'contained' color = {'#FFE4A6'}  labelStyle={{ color: "black", fontSize: 12}} onPress={confirmMacroReset}>Refresh Macros</Button>
+        </View> 
       </View>
     );  
   }  
