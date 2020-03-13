@@ -83,13 +83,12 @@ function confirmMacroReset(){
   ) 
 }
 
+function resetMacros(){
+  calories.resetTotal()
+}
 
 function newMacroForm(){
   
-}
-
-function resetMacros(){
-  calories.resetTotal()
 }
 
 //Rendering Macros--
@@ -105,7 +104,14 @@ class HomeScreen extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
-  render() {  
+  render() {
+
+    const [macros,setMacro] = useState([]); 
+
+    function addMacro(value){
+      setMacro(this.state.arr.concat(value))
+    }
+
     return ( 
       <View style = {{flex:1}}>
         <Header 
