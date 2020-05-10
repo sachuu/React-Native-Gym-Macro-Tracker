@@ -36,21 +36,25 @@ function MainProgress(){
   
   }
 
-  function acceptAdd(){
-
-  }
-
   function acceptSub(){
 
   }
 
 export default function MacrosList(){
 
+    const [currMacro, setCurrMacro] = useState(0);
+
     const [macros, setMacros] = useState([
         {macroName: 'Calories', value: 0, key: '1'},
-        {macroName: 'Carbs', value: 0, key: '2'},
-        {macroName: 'Fats', value: 0, key: '3'},
+        {macroName: 'Protein', value: 0, key: '2'},
+        {macroName: 'Carbs', value: 0, key: '3'},
+        {macroName: 'Fats', value: 0, key: '4'} 
     ]);
+
+    const acceptAdd = (value) => {
+      //setMacros(macros[0].value + value);
+      console.log(value)
+    };
 
     //Modal for Add
     const [addformModal, setAddFormModal] = useState({addFormIsVisible: false});
@@ -145,15 +149,15 @@ export default function MacrosList(){
               }}/>
 
               <View style={{ flex: 1}}>
-                <Calculator style={{ flex: 1 }} hasAcceptButton = {true} onAccept = {acceptAdd}/>
+                <Calculator style={{ flex: 1 }} hasAcceptButton = {true} onAccept = {acceptAdd} acceptButtonBackgroundColor = {'lightgreen'}/>
               </View>
 
-              <Button mode = 'contained' color = {'#FEB277'}  labelStyle={{ color: "white", fontSize: 12}} onPress = {addDismissBoth}> Preset Meals</Button>
               <Button mode = 'contained' color = {'#FF9285'}  labelStyle={{ color: "white", fontSize: 12}} onPress = {addDismissBoth}> Dismiss</Button>
 
             </Modal>
 
             {/* Subtract Modal */}
+
             <Modal
               animationType="slide"
               transparent={false}
@@ -169,7 +173,7 @@ export default function MacrosList(){
               }}/>
 
               <View style={{ flex: 1}}>
-                <Calculator style={{ flex: 1 }} hasAcceptButton = {true} onAccept = {acceptSub}/>
+                <Calculator style={{ flex: 1 }} hasAcceptButton = {true} onAccept = {acceptSub} acceptButtonBackgroundColor = {'#FAB35E'}/>
               </View>
 
               <Button mode = 'contained' color = {'#FF9285'}  labelStyle={{ color: "white", fontSize: 12}} onPress = {subDismissBoth}> Dismiss</Button>
@@ -177,7 +181,7 @@ export default function MacrosList(){
             </Modal>
           
             <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <Button mode = 'contained' color = {'#FFE4A6'}  labelStyle={{ color: "black", fontSize: 12}} onPress={newMacroForm}>Add New Macro</Button>
+              <Button mode = 'contained' color = {'#FFE4A6'}  labelStyle={{ color: "black", fontSize: 12}} onPress={newMacroForm}>Set Macro Goals</Button>
               <Button mode = 'contained' color = {'#FFE4A6'}  labelStyle={{ color: "black", fontSize: 12}} onPress={newMacroForm}>Refresh Macros</Button>
             </View> 
 

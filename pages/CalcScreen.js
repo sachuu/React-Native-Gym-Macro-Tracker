@@ -8,26 +8,40 @@ import SwitchSelector from "react-native-switch-selector";
 global.currGender = 'm'
 global.currMacro = 'm'
 
-function calcMacro(age, weight, height){
-  var macroTotal = 0
-  if(global.currMacro = 'calories'){
-    if(global.currGender === 'm'){
-      macroTotal = (((6.07678*weight)+(12.18946*height)-(5.7*age))+88.362)*1.2
-    }
-    else{
-      macroTotal = (((4.19437*weight)+(7.8689*height)-(4.3*age))+447.593)*1.2
-    }
-    return macroTotal.toFixed(0)
-  }
-}
-
 function MacroForm(){
+  const [multipleOne, setMultipleOne] = useState(1.2);
+  const [multipleTwo, setMultipleTwo] = useState(0.7);
+
   const [total, setTotal] = useState(0);
   const[subMacros, setSubMacros] = useState([
     {
       age: 0,
     }
   ])
+
+  function calcMacro(age, weight, height){
+    var macroTotal = 0
+  
+    if(global.currMacro === 'calories'){
+      if(global.currGender === 'm'){
+        macroTotal = (((6.07678*weight)+(12.18946*height)-(5.7*age))+88.362)*1.2
+      }
+      else{
+        macroTotal = (((4.19437*weight)+(7.8689*height)-(4.3*age))+447.593)*1.2
+      }
+      setMultipleOne(1.2);
+      setMultipleTwo(0.7);
+    }
+  
+    if(global.currMacro === 'protein'){
+      macroTotal = ( (0.453592*weight) * 2)
+      setMultipleOne(1);
+      setMultipleTwo(1);
+    }
+  
+    return macroTotal.toFixed(0)
+  }
+
   return(
     <View>
       <Formik
@@ -77,9 +91,10 @@ function MacroForm(){
               hasPadding = {true}
       
               options={[
-                { label: "Calories", value: "calories"},
-                { label: "Carbs", value: "carbs"},
-                { label: 'Fats', value: 'fat'}
+                {label: "Calories", value: "calories"},
+                {label: "Protein", value: "protein"},
+                {label: "Carbs", value: "carbs"},
+                {label: 'Fats', value: 'fats'}
               ]}
             />
             <Button color = {"green"} onPress = {handleSubmit} title= "CALCULATE"/>
@@ -101,9 +116,9 @@ function MacroForm(){
           </DataTable.Header>
 
           <DataTable.Row>
-            <DataTable.Cell numeric style = {{justifyContent: "space-between"}}>{(total * 1.2).toFixed(0)}</DataTable.Cell>
+            <DataTable.Cell numeric style = {{justifyContent: "space-between"}}>{(total * multipleOne).toFixed(0)}</DataTable.Cell>
             <DataTable.Cell numeric style = {{justifyContent: "space-between"}}>{total}</DataTable.Cell>
-            <DataTable.Cell numeric style = {{justifyContent: "space-between"}}>{(total * 0.70).toFixed(0)}</DataTable.Cell>
+            <DataTable.Cell numeric style = {{justifyContent: "space-between"}}>{(total * multipleTwo).toFixed(0)}</DataTable.Cell>
           </DataTable.Row>
         </DataTable>
       </View>
